@@ -1,0 +1,17 @@
+workflows:
+  ios-workflow:
+    name: iOS Build
+    environment:
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: |
+          cd HousekeepingApp
+          pod install || echo "No Podfile"
+      - name: Build iOS app
+        script: |
+          xcodebuild -workspace HousekeepingApp.xcworkspace -scheme HousekeepingApp -sdk iphoneos -configuration release
+    artifacts:
+      - build/ios/iphoneos/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.app
